@@ -1,0 +1,15 @@
+venv/
+**/__pycache__/
+**/*.pyc
+.DS_Store
+data/
+assets/hdri/
+assets/textures/
+output/render_before.png
+output/render_after.png
+output/data.json
+output/watersight_scene.glb
+output/*.blend1
+# Keep the final deliverables
+!output/showcase.png
+!output/watersight_scene.blend
