@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "project_name": "sefwi_wiawso_demo",
+  "site": {
+    "name": "Sefwi Wiawso Demo Plot",
+    "country": "Ghana",
+    "region": "Western North",
+    "lat": 6.2034,
+    "lon": -2.4912,
+    "boundary_file": "data/inputs/boundary.geojson",
+    "terrain_file": "data/inputs/srtm_sefwi_wiawso.tif",
+    "soil_type": "laterite_reddish"
+  },
+  "planting": {
+    "crop": "cacao",
+    "shade_model": "C_agroforestry",
+    "growth_stage": "productive",
+    "cacao": {
+      "row_spacing_m": 3.0,
+      "plant_spacing_m": 3.0,
+      "row_orientation": "auto_slope_aware",
+      "edge_buffer_m": 2.5,
+      "position_jitter_m": 0.15,
+      "missing_rate": 0.03
+    },
+    "shade_upper": {
+      "enabled": true,
+      "species_mix": [
+        {"species": "terminalia_superba", "weight": 0.5},
+        {"species": "inga_edulis", "weight": 0.3},
+        {"species": "gliricidia_sepium", "weight": 0.2}
+      ],
+      "spacing_m": 12.0,
+      "position_jitter_m": 1.5
+    },
+    "shade_middle": {
+      "enabled": true,
+      "species": "banana",
+      "spacing_m": 6.0,
+      "position_jitter_m": 0.5
+    }
+  },
+  "terrain": {
+    "use_dem": true,
+    "vertical_exaggeration": 1.0,
+    "mesh_resolution_m": 2.0,
+    "smoothing_passes": 1
+  },
+  "environment": {
+    "time_of_day": "08:00",
+    "date": "2025-03-15",
+    "hdri_preset": "tropical_morning_hazy",
+    "atmospheric_haze": 0.3
+  },
+  "render": {
+    "engine": "cycles",
+    "samples": 128,
+    "resolution": [1920, 1080]
+  },
+  "reproducibility": {
+    "random_seed": 42
+  }
+}
