@@ -419,6 +419,19 @@ def export_glb(filepath):
     print(f"  Saved GLB  → {filepath}")
 
 
+# ── 8. PLY export ────────────────────────────────────────────────────────────
+
+def export_ply(filepath):
+    bpy.ops.wm.ply_export(
+        filepath=str(filepath),
+        ascii_format=False,
+        export_normals=True,
+        export_uv=True,
+        export_colors='NONE',
+    )
+    print(f"  Saved PLY  → {filepath}")
+
+
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
@@ -449,6 +462,10 @@ def main():
     # Export GLB
     glb_path = ROOT / "output" / "sprinklesim_scene.glb"
     export_glb(glb_path)
+
+    # Export PLY
+    ply_path = ROOT / "output" / "sprinklesim_scene.ply"
+    export_ply(ply_path)
 
     print("Rendering hero shot …")
     bpy.ops.render.render(write_still=True)
