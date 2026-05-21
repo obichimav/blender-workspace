@@ -39,19 +39,20 @@ ROOT = HERE.parent
 
 
 def save_zone_texture(zones_array, output_path):
-    """Render zones array as a borderless color PNG for use as a Blender texture."""
+    """Render zones array as a smooth, borderless color PNG for use as a Blender texture."""
     cmap = ListedColormap([
         '#d64545',   # 0 = under-watered  (red)
         '#4caf50',   # 1 = optimal         (green)
         '#ffc107',   # 2 = over-watered    (yellow)
     ])
 
-    fig, ax = plt.subplots(figsize=(10, 6.667), dpi=150)
+    # bicubic interpolation + high DPI eliminates the pixel-grid look
+    fig, ax = plt.subplots(figsize=(10, 6.667), dpi=300)
     ax.imshow(zones_array, origin='lower', cmap=cmap, vmin=0, vmax=2,
-              interpolation='nearest', aspect='auto')
+              interpolation='bicubic', aspect='auto')
     ax.set_axis_off()
     plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-    plt.savefig(output_path, dpi=150, bbox_inches='tight', pad_inches=0)
+    plt.savefig(output_path, dpi=300, bbox_inches='tight', pad_inches=0)
     plt.close()
     print(f"  Zone texture → {output_path}")
 

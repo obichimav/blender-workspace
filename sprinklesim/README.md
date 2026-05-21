@@ -44,7 +44,7 @@ sprinklesim/
 │   ├── sanity_check.py      # matplotlib sanity visualization
 │   ├── build_scene.py       # Step 2: Blender headless scene + render
 │   └── annotate.py          # Step 3: PIL annotation overlay
-├── output/                  # Generated files (gitignored except showcase)
+├── output/                  # Generated files (gitignored except showcase + .blend)
 ├── run_pipeline.sh          # One-command full pipeline
 └── README.md
 ```
