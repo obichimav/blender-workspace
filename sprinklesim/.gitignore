@@ -1,0 +1,10 @@
+venv/
+**/__pycache__/
+**/*.pyc
+.DS_Store
+output/data.json
+output/zone_texture.png
+output/raw_render.png
+output/sanity_check.png
+# Keep the final showcase image
+!output/showcase.png
