@@ -3,14 +3,4 @@ assets/hdri/
 **/__pycache__/
 **/*.pyc
 .DS_Store
-output/data.json
-output/zone_texture.png
-output/raw_render.png
-output/sanity_check.png
-output/sprinklesim_coverage_demo.png
-output/sprinklesim_scene.glb
-output/sprinklesim_scene.ply
 output/*.blend1
-# Keep final showcase image and Blender source
-!output/showcase.png
-!output/sprinklesim_scene.blend
