@@ -1,0 +1,12 @@
+venv/
+data/inputs/
+data/intermediate/
+data/outputs/
+assets/trees/*.blend
+assets/hdri/*.exr
+assets/hdri/*.hdr
+**/__pycache__/
+**/*.pyc
+.DS_Store
+*.blend1
+.scratch/
