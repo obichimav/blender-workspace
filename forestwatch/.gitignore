@@ -1,0 +1,13 @@
+venv/
+**/__pycache__/
+**/*.pyc
+.DS_Store
+data/
+assets/hdri/
+output/render_*.png
+output/forestwatch_scene.glb
+output/*.blend1
+# Keep final deliverables
+!output/showcase.png
+!output/forestwatch_scene.blend
+!output/deforestation_timelapse.gif
