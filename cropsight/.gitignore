@@ -1,0 +1,15 @@
+venv/
+**/__pycache__/
+**/*.pyc
+.DS_Store
+data/
+assets/hdri/
+output/data.json
+output/zone_texture.png
+output/raw_render.png
+output/cropsight_scene.glb
+output/*.blend1
+# Keep final showcase images + Blender source
+!output/cropsight_showcase.png
+!output/showcase.png
+!output/cropsight_scene.blend
