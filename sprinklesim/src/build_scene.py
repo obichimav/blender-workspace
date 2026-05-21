@@ -324,6 +324,9 @@ def setup_cameras(data):
 
 # ── 5. Lighting ───────────────────────────────────────────────────────────────
 
+HDRI_PATH = ROOT / "assets" / "hdri" / "rural_landscape_2k.hdr"
+
+
 def setup_lighting():
     # Sun lamp — mid-morning tropical sun
     bpy.ops.object.light_add(type='SUN', location=(0, 0, 50))
@@ -333,11 +336,10 @@ def setup_lighting():
     az = math.radians(125)  # SE direction
     sun.rotation_euler[0] = math.pi / 2 - el
     sun.rotation_euler[2] = -az
-    sun.data.energy = 5.0
+    sun.data.energy = 3.0   # softer with HDRI fill light
     sun.data.angle  = math.radians(0.5)
     sun.data.color  = (1.0, 0.97, 0.90)
 
-    # Hosek-Wilkie sky (confirmed working in headless mode)
     world = bpy.context.scene.world
     if not world:
         world = bpy.data.worlds.new("World")
@@ -345,21 +347,36 @@ def setup_lighting():
     world.use_nodes = True
     nt = world.node_tree
     nt.nodes.clear()
-    out = nt.nodes.new('ShaderNodeOutputWorld')
-    bg  = nt.nodes.new('ShaderNodeBackground')
-    bg.inputs['Strength'].default_value = 1.0
-    sky = nt.nodes.new('ShaderNodeTexSky')
-    sky.sky_type = 'HOSEK_WILKIE'
-    sky.sun_direction = (
-        math.cos(el) * math.sin(az),
-        math.cos(el) * math.cos(az),
-        math.sin(el),
-    )
-    sky.turbidity = 3.5
-    nt.links.new(sky.outputs['Color'],       bg.inputs['Color'])
-    nt.links.new(bg.outputs['Background'], out.inputs['Surface'])
+    out  = nt.nodes.new('ShaderNodeOutputWorld')
+    bg   = nt.nodes.new('ShaderNodeBackground')
 
-    print("  Lighting: sun + Hosek-Wilkie sky")
+    if HDRI_PATH.exists():
+        # Polyhaven HDRI environment — real photographed rural landscape
+        env  = nt.nodes.new('ShaderNodeTexEnvironment')
+        env.image = bpy.data.images.load(str(HDRI_PATH))
+        coord = nt.nodes.new('ShaderNodeTexCoord')
+        mapping = nt.nodes.new('ShaderNodeMapping')
+        mapping.inputs['Rotation'].default_value[2] = math.radians(120)  # rotate to match sun
+        nt.links.new(coord.outputs['Generated'], mapping.inputs['Vector'])
+        nt.links.new(mapping.outputs['Vector'],  env.inputs['Vector'])
+        nt.links.new(env.outputs['Color'],       bg.inputs['Color'])
+        bg.inputs['Strength'].default_value = 1.2
+        print(f"  Lighting: sun + HDRI ({HDRI_PATH.name})")
+    else:
+        # Fallback: Hosek-Wilkie procedural sky
+        sky = nt.nodes.new('ShaderNodeTexSky')
+        sky.sky_type = 'HOSEK_WILKIE'
+        sky.sun_direction = (
+            math.cos(el) * math.sin(az),
+            math.cos(el) * math.cos(az),
+            math.sin(el),
+        )
+        sky.turbidity = 3.5
+        nt.links.new(sky.outputs['Color'], bg.inputs['Color'])
+        bg.inputs['Strength'].default_value = 1.0
+        print("  Lighting: sun + Hosek-Wilkie sky (HDRI not found, using fallback)")
+
+    nt.links.new(bg.outputs['Background'], out.inputs['Surface'])
 
 
 # ── 6. Render settings ────────────────────────────────────────────────────────
